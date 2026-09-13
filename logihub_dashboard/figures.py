@@ -39,13 +39,15 @@ def revenue_cost_timeseries(df: pd.DataFrame, freq: str) -> go.Figure:
         return empty("Нет данных за выбранный период")
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data["label"], y=data["revenue"] / 1e6, name="Доходы (выручка)", mode="lines+markers",
-                             line=dict(color=BLUE, width=3), hovertemplate="%{x}<br>Выручка: %{y:.2f} млн ₽<extra></extra>"))
+                             line=dict(color=BLUE, width=3), hovertemplate="Выручка: %{y:.2f} млн ₽<extra></extra>"))
     fig.add_trace(go.Scatter(x=data["label"], y=data["total_cost"] / 1e6, name="Расходы", mode="lines+markers",
-                             line=dict(color=ORANGE, width=3), hovertemplate="%{x}<br>Расходы: %{y:.2f} млн ₽<extra></extra>"))
+                             line=dict(color=ORANGE, width=3), hovertemplate="Расходы: %{y:.2f} млн ₽<extra></extra>"))
     fig.add_trace(go.Bar(x=data["label"], y=data["profit"] / 1e6, name="Прибыль", marker_color="rgba(22,163,74,.25)",
-                         hovertemplate="%{x}<br>Прибыль: %{y:.2f} млн ₽<extra></extra>"))
+                         hovertemplate="Прибыль: %{y:.2f} млн ₽<extra></extra>"))
     fig.update_yaxes(title_text="млн ₽")
-    return _style(fig)
+    fig = _style(fig)
+    fig.update_layout(hovermode="x unified")
+    return fig
 
 
 def cost_pie(df: pd.DataFrame) -> go.Figure:
