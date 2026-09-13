@@ -94,7 +94,7 @@ def build_layout() -> html.Div:
                 dbc.Col(lg=5, children=card("Выручка и OTIF по регионам", dcc.Graph(id="graph-regions"))),
             ]),
             dbc.Row(className="g-3 mt-1", children=[
-                dbc.Col(12, children=card("Ключевые финансовые показатели за выбранный период", kpi_table())),
+                dbc.Col(width=12, children=card("Ключевые финансовые показатели за выбранный период", kpi_table())),
             ]),
         ]),
     ])
