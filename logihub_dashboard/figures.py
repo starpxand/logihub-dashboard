@@ -14,9 +14,9 @@ RELEASES = [("2024-01-01", "v1.0"), ("2025-02-01", "v1.5"), ("2026-02-01", "v2.0
 
 def _style(fig: go.Figure, height: int = 360) -> go.Figure:
     fig.update_layout(
-        template="plotly_white", height=height, margin=dict(l=10, r=10, t=10, b=10),
+        template="plotly_white", height=height, margin=dict(l=10, r=10, t=46, b=10),
         font=dict(family="Inter, Segoe UI, Arial", size=12, color="#0f172a"),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
+        legend=dict(orientation="h", yanchor="bottom", y=1.04, xanchor="left", x=0, title_text=""),
         hoverlabel=dict(bgcolor="white", font_size=12), separators=", ",
     )
     fig.update_xaxes(showgrid=False)
@@ -82,7 +82,7 @@ def profit_scatter(df: pd.DataFrame, x_metric: str = "distance_km") -> go.Figure
                      hover_data={"order_id": True, "client": True, "cargo_type": True, "region": True,
                                  "revenue": ":,.0f", "total_cost": ":,.0f"})
     corr = done[[x_metric, "profit"]].corr().iloc[0, 1]
-    fig.add_annotation(text=f"Корреляция Пирсона r = {corr:.2f}", x=0.01, y=0.98, xref="paper", yref="paper",
+    fig.add_annotation(text=f"Корреляция Пирсона r = {corr:.2f}", x=0.99, y=0.97, xref="paper", yref="paper", xanchor="right",
                        showarrow=False, bgcolor="white", bordercolor="#e2e8f0", font=dict(size=12))
     return _style(fig, 380)
 
@@ -103,7 +103,7 @@ def otif_trend(df: pd.DataFrame, freq: str) -> go.Figure:
             fig.add_annotation(x=x, y=99, text=name, showarrow=False, yanchor="top", xanchor="left",
                                font=dict(color=NAVY, size=12))
     fig.update_yaxes(range=[50, 100], title_text="%")
-    fig.update_xaxes(tickformat="%m.%Y" if freq == "M" else "%Y")
+    fig.update_xaxes(tickformat={"M": "%m.%Y", "Q": "Q%q %Y", "Y": "%Y"}.get(freq, "%m.%Y"))
     return _style(fig, 300)
 
 
