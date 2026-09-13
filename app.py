@@ -14,7 +14,8 @@ from logihub_dashboard.layout import build_layout
 
 
 def create_app() -> Dash:
-    app = Dash(__name__, title="ЛогиХаб – аналитика логистики", external_stylesheets=[dbc.themes.BOOTSTRAP])
+    app = Dash(__name__, title="ЛогиХаб – аналитика логистики", external_stylesheets=[
+        dbc.themes.BOOTSTRAP, "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"])
     app.layout = build_layout()
     register(app)
     return app

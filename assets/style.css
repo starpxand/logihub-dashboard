@@ -1,0 +1,54 @@
+/* ЛогиХаб – оформление дашборда (фирменная палитра продукта) */
+:root {
+  --navy: #0b1b3f; --navy-2: #13295c; --blue: #2f5bea; --orange: #ff8a3d; --amber: #ffb547;
+  --ink: #0f172a; --muted: #64748b; --line: #e2e8f0; --bg: #f5f7fb;
+}
+body { background: var(--bg); font-family: Inter, "Segoe UI", Arial, sans-serif; color: var(--ink); }
+
+.lh-header {
+  background: radial-gradient(700px 260px at 92% -40%, rgba(255, 138, 61, .45), transparent 60%),
+              linear-gradient(120deg, var(--navy), var(--navy-2));
+  color: #fff; padding: 18px 0; margin-bottom: 22px; box-shadow: 0 6px 24px rgba(11, 27, 63, .25);
+}
+.lh-header .container-fluid { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; }
+.lh-brand { display: flex; align-items: center; gap: 14px; }
+.lh-logo { width: 46px; height: 46px; }
+.lh-header h1 { font-size: 24px; font-weight: 800; margin: 0; letter-spacing: -.02em; }
+.lh-header p { margin: 2px 0 0; color: #c7d2fe; font-size: 14px; }
+.lh-dataset { background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .2); padding: 8px 14px;
+  border-radius: 999px; font-size: 13px; font-weight: 600; }
+
+.lh-body { padding: 0 28px 30px; }
+.lh-card { border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 8px 24px rgba(15, 23, 42, .06); height: 100%; }
+.card-head-lh { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+.card-title-lh { font-size: 16px; font-weight: 700; margin: 0; }
+.card-subtitle-lh { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+.lh-section { margin: 24px 0 8px; }
+.lh-section h2, .lh-h2 { font-size: 18px; font-weight: 800; margin: 0 0 12px; display: flex; align-items: center; gap: 10px; }
+.lh-section h2::before, .lh-h2::before { content: ""; width: 5px; height: 18px; border-radius: 3px; background: linear-gradient(180deg, var(--amber), var(--orange)); }
+.lh-h2 { margin-top: 26px; }
+
+.lh-upload { border: 2px dashed #c7d2fe; border-radius: 12px; padding: 16px; text-align: center; background: #f8faff;
+  cursor: pointer; transition: border-color .15s, background .15s; font-size: 14px; }
+.lh-upload:hover { border-color: var(--blue); background: #eef3ff; }
+.lh-upload-icon { font-size: 26px; color: var(--blue); line-height: 1; margin-bottom: 4px; }
+.lh-link { color: var(--blue); font-weight: 600; text-decoration: underline; }
+.lh-hint { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.lh-alert { margin: 12px 0 0; padding: 8px 12px; font-size: 13px; border-radius: 10px; }
+
+.lh-filters label { font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px; display: block; }
+.lh-dates .DateInput_input { font-size: 13px; padding: 6px 8px; }
+.lh-dates .DateRangePickerInput { border-radius: 8px; border-color: #ccc; }
+.lh-mini-dd { width: 190px; font-size: 13px; }
+
+.lh-kpi { border: 0; border-radius: 14px; box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 8px 24px rgba(15, 23, 42, .06); }
+.lh-kpis .col-xl-3:first-child .lh-kpi { background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; }
+.lh-kpis .col-xl-3:first-child .lh-kpi-title, .lh-kpis .col-xl-3:first-child .lh-kpi-target { color: #c7d2fe; }
+.lh-kpis .col-xl-3:first-child .lh-kpi-value { color: var(--amber); }
+.lh-kpi-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.lh-kpi-value { font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin: 2px 0 10px; }
+.lh-progress { height: 8px; border-radius: 99px; background: #e8edf6; }
+.lh-kpi-target { font-size: 12px; color: var(--muted); margin-top: 8px; }
+.lh-empty { color: var(--muted); background: #fff; border: 1px dashed var(--line); border-radius: 12px; padding: 18px; text-align: center; }
+
+.lh-footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 26px; }

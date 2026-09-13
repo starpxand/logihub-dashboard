@@ -1,6 +1,8 @@
 """Колбэки интерактивности дашборда."""
 from __future__ import annotations
 
+import io
+
 import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import Input, Output, State, html, no_update
@@ -55,7 +57,7 @@ def register(app) -> None:
             placeholder = figures.empty()
             hint = html.Div("Загрузите файл с данными, чтобы увидеть показатели", className="lh-empty")
             return hint, *[placeholder] * 6, [], "Данные не загружены"
-        df = prepare(pd.read_json(data, orient="split"))
+        df = prepare(pd.read_json(io.StringIO(data), orient="split"))
         view = filter_orders(df, start, end, cargo, regions)
         k = kpis(view)
         cards = dbc.Row(className="g-3", children=[
