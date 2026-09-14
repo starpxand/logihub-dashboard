@@ -100,6 +100,18 @@ pytest
 | **OTIF и релизы** | **Проверка формата файла** |
 | <img src="docs/screenshots/10_otif.png" width="100%"> | <img src="docs/screenshots/14_upload_error.png" width="100%"> |
 
+## Использование как библиотеки
+
+Модуль данных дашборда можно подключить к другим сервисам ЛогиХаба (например, к Telegram-боту):
+
+```bash
+pip install "logihub-dashboard @ git+https://github.com/starpxand/logihub-dashboard@v1.1.0"
+```
+
+```python
+from logihub_dashboard.data import prepare, kpis, by_period
+```
+
 ## Формат данных
 
 CSV в UTF-8, одна строка – один заказ. Обязательные столбцы:
