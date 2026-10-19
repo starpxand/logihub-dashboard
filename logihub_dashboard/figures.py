@@ -84,7 +84,7 @@ def profit_scatter(df: pd.DataFrame, x_metric: str = "distance_km") -> go.Figure
                      hover_data={"order_id": True, "client": True, "cargo_type": True, "region": True,
                                  "revenue": ":,.0f", "total_cost": ":,.0f"})
     corr = done[[x_metric, "profit"]].corr().iloc[0, 1]
-    fig.add_annotation(text=f"Корреляция Пирсона r = {corr:.2f}", x=0.99, y=0.97, xref="paper", yref="paper", xanchor="right",
+    fig.add_annotation(text=f"Корреляция Пирсона r = {corr:.2f}".replace(".", ","), x=0.99, y=0.97, xref="paper", yref="paper", xanchor="right",
                        showarrow=False, bgcolor="white", bordercolor="#e2e8f0", font=dict(size=12))
     return _style(fig, 380)
 
