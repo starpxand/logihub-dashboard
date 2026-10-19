@@ -52,3 +52,18 @@ body { background: var(--bg); font-family: Inter, "Segoe UI", Arial, sans-serif;
 .lh-empty { color: var(--muted); background: #fff; border: 1px dashed var(--line); border-radius: 12px; padding: 18px; text-align: center; }
 
 .lh-footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 26px; }
+
+/* даты в одну строку; быстрый выбор периода под фильтрами */
+.lh-dates .DateRangePickerInput { display: flex; align-items: center; flex-wrap: nowrap; width: 100%; }
+.lh-dates .DateInput { flex: 1; width: auto; }
+.lh-quick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 14px; margin-top: 2px; border-top: 1px solid var(--line); }
+.lh-quick-label { font-size: 12px; font-weight: 700; color: #334155; margin-right: 4px; }
+.lh-chip, .lh-reset { font: 600 13px Inter, "Segoe UI", Arial, sans-serif; border-radius: 999px; padding: 6px 14px; cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s; }
+.lh-chip { border: 1px solid #c7d2fe; background: #f8faff; color: var(--blue); }
+.lh-chip:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+.lh-reset { margin-left: auto; border: 1px solid var(--line); background: #fff; color: var(--muted); }
+.lh-reset:hover { border-color: var(--orange); color: var(--orange); }
+.lh-chip:focus-visible, .lh-reset:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.lh-dates .DateRangePickerInput { height: 36px; border: 1px solid #ccc; border-radius: 4px; overflow: hidden; }
+.lh-dates .DateInput_input { height: 34px; font-size: 14px; border-bottom: 0; }
