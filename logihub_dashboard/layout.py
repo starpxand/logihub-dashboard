@@ -7,6 +7,7 @@ from dash import dash_table, dcc, html
 from .data import PERIODS
 
 CARGO_OPTIONS = ["Электроника", "Продукты питания", "Стройматериалы", "Одежда и обувь", "Мебель", "Медикаменты"]
+QUICK_RANGES = {"all": "Весь период", "12M": "12 месяцев", "Q": "Квартал", "M": "Месяц"}   # от последней даты в файле
 REGION_OPTIONS = ["Хабаровский край", "Приморский край", "Амурская область", "Сахалинская область", "Еврейская АО"]
 
 
@@ -37,19 +38,29 @@ def upload_panel() -> dcc.Upload:
 
 def filters() -> dbc.Row:
     return dbc.Row(className="g-3 lh-filters", children=[
-        dbc.Col(md=2, children=[html.Label("Период анализа"),
+        dbc.Col(md=6, xl=2, children=[html.Label("Период анализа"),
                                 dcc.Dropdown(id="period", options=[{"label": v, "value": k} for k, v in PERIODS.items()],
                                              value="M", clearable=False)]),
-        dbc.Col(md=3, children=[html.Label("Даты"),
+        dbc.Col(md=6, xl=3, children=[html.Label("Даты"),
                                 dcc.DatePickerRange(id="date-range", display_format="DD.MM.YYYY",
-                                                    first_day_of_week=1, className="lh-dates")]),
-        dbc.Col(md=4, children=[html.Label("Категории груза"),
+                                                    first_day_of_week=1, className="lh-dates",
+                                                    start_date_placeholder_text="Начало", end_date_placeholder_text="Конец")]),
+        dbc.Col(md=6, xl=4, children=[html.Label("Категории груза"),
                                 dcc.Dropdown(id="cargo", options=CARGO_OPTIONS, multi=True,
                                              placeholder="Все категории")]),
-        dbc.Col(md=3, children=[html.Label("Регионы доставки"),
+        dbc.Col(md=6, xl=3, children=[html.Label("Регионы доставки"),
                                 dcc.Dropdown(id="regions", options=REGION_OPTIONS, multi=True,
                                              placeholder="Все регионы")]),
+        dbc.Col(width=12, children=html.Div(className="lh-quick", children=[
+            html.Span("Быстрый выбор", className="lh-quick-label"),
+            *[html.Button(text, id={"type": "quick", "range": key}, className="lh-chip", n_clicks=0)
+              for key, text in QUICK_RANGES.items()],
+            html.Button("Сбросить фильтры", id="reset-filters", className="lh-reset", n_clicks=0),
+        ])),
     ])
+
+
+RU = {"group": " ", "decimal": ","}   # русский формат чисел: 7 292 794 и 34,0
 
 
 def kpi_table() -> dash_table.DataTable:
@@ -58,11 +69,11 @@ def kpi_table() -> dash_table.DataTable:
         columns=[
             {"name": "Период", "id": "label"},
             {"name": "Заказов", "id": "orders", "type": "numeric"},
-            {"name": "Выручка, ₽", "id": "revenue", "type": "numeric", "format": {"specifier": ",.0f"}},
-            {"name": "Расходы, ₽", "id": "total_cost", "type": "numeric", "format": {"specifier": ",.0f"}},
-            {"name": "Прибыль, ₽", "id": "profit", "type": "numeric", "format": {"specifier": ",.0f"}},
-            {"name": "Рентабельность, %", "id": "margin", "type": "numeric", "format": {"specifier": ".1f"}},
-            {"name": "OTIF, %", "id": "otif", "type": "numeric", "format": {"specifier": ".1f"}},
+            {"name": "Выручка, ₽", "id": "revenue", "type": "numeric", "format": {"specifier": ",.0f", "locale": RU}},
+            {"name": "Расходы, ₽", "id": "total_cost", "type": "numeric", "format": {"specifier": ",.0f", "locale": RU}},
+            {"name": "Прибыль, ₽", "id": "profit", "type": "numeric", "format": {"specifier": ",.0f", "locale": RU}},
+            {"name": "Рентабельность, %", "id": "margin", "type": "numeric", "format": {"specifier": ".1f", "locale": RU}},
+            {"name": "OTIF, %", "id": "otif", "type": "numeric", "format": {"specifier": ".1f", "locale": RU}},
         ],
         style_header={"backgroundColor": "#f8fafc", "fontWeight": 700, "color": "#64748b",
                       "textTransform": "uppercase", "fontSize": 11, "border": "none"},
