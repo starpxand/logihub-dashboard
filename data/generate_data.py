@@ -168,7 +168,8 @@ def main() -> None:
     random.seed(args.seed)
     rows = generate(date.fromisoformat(args.start), date.fromisoformat(args.end))
     with open(args.out, "w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, fieldnames=list(rows[0]))
+        # строки через LF, как файл хранится в репозитории – повторная генерация даёт тот же файл
+        writer = csv.DictWriter(fh, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     print(f"Сформировано заказов: {len(rows)} -> {args.out}")
