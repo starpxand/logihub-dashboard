@@ -83,3 +83,8 @@ def test_insights_name_best_and_worst_period(df):
     assert "good" in kinds and "bad" in kinds
     assert any("OTIF" in t for _, t in items)
     assert not any("," in t.split("–")[1].split(":")[0] for k, t in items if k != "info"), "метка периода не должна портиться"
+
+
+def test_otif_axis_tick_step_matches_grouping(df):
+    assert figures.otif_trend(df, "Y").layout.xaxis.dtick == "M12"
+    assert figures.otif_trend(df, "Q").layout.xaxis.dtick == "M3"
