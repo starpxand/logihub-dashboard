@@ -56,30 +56,59 @@ BPMN-процесса «Закрыть заказ и пересчитать OTIF
 
 ## Установка и запуск
 
-Нужен Python 3.11 или новее (проверено на 3.12 и 3.14).
+Нужен Python 3.11 или новее (проверено на 3.12 и 3.14). При установке Python на Windows
+отметьте «Add python.exe to PATH».
 
-```bash
-git clone https://github.com/starpxand/logihub-dashboard.git
-cd logihub-dashboard
+**1. Получите проект** одним из способов:
+
+- без git – кнопка **Code → Download ZIP** вверху этой страницы, затем распакуйте архив
+  (появится папка `logihub-dashboard-main`);
+- через git – `git clone https://github.com/starpxand/logihub-dashboard.git`.
+
+**2. Откройте терминал в папке проекта** (там, где лежит `app.py`). В Windows: щёлкните по
+адресной строке Проводника, введите `cmd` и нажмите Enter.
+
+**3. Установите зависимости и запустите дашборд.**
+
+Windows (cmd или PowerShell):
+
+```bat
 python -m venv .venv
-# Windows: .venv\Scripts\activate    Linux/macOS: source .venv/bin/activate
-pip install -r requirements.txt
-python app.py
+.\.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python app.py
 ```
 
-Откройте <http://127.0.0.1:8050>. Переменные окружения: `HOST`, `PORT`, `DEBUG=1`.
+Если после первой команды ничего не происходит, открывается Microsoft Store или появляется
+«python не найден» – напишите в первой строке `py` вместо `python`. Активировать окружение
+(`activate`) не требуется: команды обращаются к нему напрямую, поэтому работают и в cmd,
+и в PowerShell, где запуск скриптов часто запрещён.
 
-Генерация нового набора тестовых данных:
+Linux / macOS:
 
 ```bash
-python data/generate_data.py --seed 45 --out data/logistics_orders.csv
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python app.py
 ```
 
-Тесты:
+**4. Откройте <http://127.0.0.1:8050>** и перетащите файл `data/logistics_orders.csv`
+в блок «1. Данные» (подробнее – в разделе [«Как пользоваться дашбордом»](#как-пользоваться-дашбордом)).
+Дашборд работает, пока открыт терминал; остановить – `Ctrl+C`.
 
-```bash
-pip install pytest
-pytest
+Переменные окружения: `HOST`, `PORT` (если порт 8050 занят, например `set PORT=8051` в cmd),
+`DEBUG=1`.
+
+Тесты (на Linux/macOS вместо `.\.venv\Scripts\python` – `.venv/bin/python`):
+
+```bat
+.\.venv\Scripts\python -m pip install pytest
+.\.venv\Scripts\python -m pytest
+```
+
+Генерация тестовых данных (по умолчанию `--seed 45` – получится тот же файл, другое число – новый набор):
+
+```bat
+.\.venv\Scripts\python data/generate_data.py --seed 45 --out data/logistics_orders.csv
 ```
 
 ## Как пользоваться дашбордом
