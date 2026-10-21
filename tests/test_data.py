@@ -67,3 +67,19 @@ def test_figures_build_without_errors(df):
                 figures.profit_scatter(df, "weight_kg"), figures.otif_trend(df, "M"), figures.region_bars(df),
                 figures.revenue_cost_timeseries(df.iloc[0:0], "M")):
         assert fig.to_dict()["data"] is not None
+
+
+def test_previous_window_same_length(df):
+    from logihub_dashboard.data import previous_window
+    ps, pe = previous_window(df, "2026-07-01", "2026-08-31")
+    assert (pe - ps).days + 1 == 62 and pe == pd.Timestamp("2026-06-30")
+    assert previous_window(df, df["order_date"].min(), "2026-08-31") is None
+
+
+def test_insights_name_best_and_worst_period(df):
+    from logihub_dashboard.data import insights
+    items = insights(df, "Q")
+    kinds = [k for k, _ in items]
+    assert "good" in kinds and "bad" in kinds
+    assert any("OTIF" in t for _, t in items)
+    assert not any("," in t.split("–")[1].split(":")[0] for k, t in items if k != "info"), "метка периода не должна портиться"

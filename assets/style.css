@@ -67,3 +67,35 @@ body { background: var(--bg); font-family: Inter, "Segoe UI", Arial, sans-serif;
 .lh-chip:focus-visible, .lh-reset:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .lh-dates .DateRangePickerInput { height: 36px; border: 1px solid #ccc; border-radius: 4px; overflow: hidden; }
 .lh-dates .DateInput_input { height: 34px; font-size: 14px; border-bottom: 0; }
+
+/* KPI: значение и мини-тренд в одной строке, изменение к прошлому периоду */
+.lh-kpi-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.lh-kpi-row .lh-kpi-value { margin-bottom: 6px; }
+.lh-spark { display: flex; align-items: flex-end; gap: 3px; height: 34px; margin-bottom: 10px; flex: none; }
+.lh-spark i { display: block; width: 6px; border-radius: 2px 2px 0 0; background: #c7d2fe; transition: height .45s cubic-bezier(.4, 0, .2, 1); }
+.lh-spark i:last-child { background: var(--blue); }
+.lh-kpis .col-xl-3:first-child .lh-spark i { background: rgba(255, 255, 255, .25); }
+.lh-kpis .col-xl-3:first-child .lh-spark i:last-child { background: var(--amber); }
+.lh-delta { display: block; font-size: 12.5px; color: var(--muted); margin: 0 0 10px; }
+.lh-delta b { font-weight: 700; margin-right: 2px; }
+.lh-delta--up b { color: #16a34a; }
+.lh-delta--down b { color: #e5484d; }
+.lh-delta--flat b { color: var(--muted); }
+.lh-delta--none { font-style: italic; }
+.lh-kpis .col-xl-3:first-child .lh-delta { color: #c7d2fe; }
+.lh-kpis .col-xl-3:first-child .lh-delta--up b { color: #4ade80; }
+.lh-kpis .col-xl-3:first-child .lh-delta--down b { color: #fca5a5; }
+
+/* выводы по выборке */
+.lh-insights:not(:empty) { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; margin-top: 14px; padding: 12px 18px;
+  background: #fff; border: 1px solid var(--line); border-radius: 14px; font-size: 13.5px; }
+.lh-insights-title { font-weight: 700; color: var(--ink); }
+.lh-insight { display: flex; align-items: center; gap: 8px; color: #334155; }
+.lh-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.lh-dot--good { background: #16a34a; } .lh-dot--bad { background: #e5484d; } .lh-dot--info { background: var(--blue); }
+
+/* пересчёт: графики приглушаются, пока Dash обновляет данные; кликабельный график регионов */
+.lh-card .js-plotly-plot { transition: opacity .2s; }
+.lh-card:has([data-dash-is-loading="true"]) .js-plotly-plot { opacity: .55; }
+.lh-click .bars .point { cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .lh-spark i { transition: none; } }
