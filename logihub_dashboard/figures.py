@@ -106,7 +106,9 @@ def otif_trend(df: pd.DataFrame, freq: str) -> go.Figure:
             fig.add_annotation(x=x, y=99, text=name, showarrow=False, yanchor="top", xanchor="left",
                                font=dict(color=NAVY, size=12))
     fig.update_yaxes(range=[50, 100], title_text="%")
-    fig.update_xaxes(tickformat={"M": "%m.%Y", "Q": "Q%q %Y", "Y": "%Y"}.get(freq, "%m.%Y"))
+    # шаг делений = шаг группировки, иначе при «Год» Plotly ставит деления по кварталам и год повторяется
+    fig.update_xaxes(tickformat={"M": "%m.%Y", "Q": "Q%q %Y", "Y": "%Y"}.get(freq, "%m.%Y"),
+                     dtick={"Q": "M3", "Y": "M12"}.get(freq))
     return _style(fig, 300)
 
 
