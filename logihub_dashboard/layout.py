@@ -100,7 +100,8 @@ def build_layout() -> html.Div:
                                             "Период, даты, категории груза и регионы применяются ко всем элементам")),
             ]),
             html.Section(className="lh-section", children=[
-                html.H2("3. Текущие показатели"), html.Div(id="kpi-indicators", className="lh-kpis")]),
+                html.H2("3. Текущие показатели"), html.Div(id="kpi-indicators", className="lh-kpis"),
+                html.Div(id="insights", className="lh-insights")]),
             html.H2("4. Графики и таблица", className="lh-h2"),
             dbc.Row(className="g-3", children=[
                 dbc.Col(lg=8, children=card("Динамика доходов и расходов", dcc.Graph(id="graph-timeseries"),
@@ -121,8 +122,8 @@ def build_layout() -> html.Div:
             dbc.Row(className="g-3 mt-1", children=[
                 dbc.Col(lg=7, children=card("OTIF по периодам и релизы продукта", dcc.Graph(id="graph-otif"),
                                             "Главный KPI продукта, цель – 90 %")),
-                dbc.Col(lg=5, children=card("Выручка и OTIF по регионам", dcc.Graph(id="graph-regions"),
-                                            "Сравнение направлений доставки")),
+                dbc.Col(lg=5, children=card("Выручка и OTIF по регионам", dcc.Graph(id="graph-regions", className="lh-click"),
+                                            "Щёлкните по столбцу – фильтр по региону, повторный щелчок снимает его")),
             ]),
             dbc.Row(className="g-3 mt-1", children=[
                 dbc.Col(width=12, children=card("Ключевые финансовые показатели за выбранный период", kpi_table(),
