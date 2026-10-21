@@ -119,3 +119,42 @@ def cost_structure(df: pd.DataFrame) -> pd.DataFrame:
     done = completed(df)
     s = done[list(COST_COLUMNS)].sum().rename(index=COST_COLUMNS)
     return s.reset_index().rename(columns={"index": "category", 0: "amount"})
+
+
+def previous_window(df: pd.DataFrame, start, end):
+    """Период той же длины непосредственно перед выбранным – для сравнения KPI.
+    None, если границы не заданы или данных до начала выборки нет."""
+    if not start or not end or df.empty:
+        return None
+    s, e = pd.to_datetime(start).normalize(), pd.to_datetime(end).normalize()
+    days = (e - s).days + 1
+    ps, pe = s - pd.Timedelta(days=days), s - pd.Timedelta(days=1)
+    if ps < df["order_date"].min().normalize():
+        return None
+    return ps, pe
+
+
+def _ru(v: float, digits: int = 1) -> str:
+    return f"{v:.{digits}f}".replace(".", ",")
+
+
+def insights(df: pd.DataFrame, freq: str = "M") -> list[tuple[str, str]]:
+    """Короткие выводы по выборке: (вид, текст). Вид: good / bad / info."""
+    done = completed(df)
+    if len(done) < 30:
+        return []
+    out = []
+    per = by_period(df, freq)
+    if len(per) >= 2:
+        best, worst = per.loc[per["otif"].idxmax()], per.loc[per["otif"].idxmin()]
+        out.append(("good", f"Лучший период по OTIF – {best['label']}: {_ru(best['otif'])} %"))
+        out.append(("bad", f"Слабый период – {worst['label']}: {_ru(worst['otif'])} %"))
+    reg = done.groupby("region")["otif"].agg(["mean", "size"])
+    reg = reg[reg["size"] >= 20]
+    if len(reg) >= 2:
+        r = reg["mean"].idxmin()
+        out.append(("bad", f"Отстающее направление – {r}: OTIF {reg.loc[r, 'mean'] * 100:.0f} %"))
+    loss = (done["profit"] < 0).mean() * 100
+    cargo = done.groupby("cargo_type")["profit"].sum().idxmax()
+    out.append(("info", f"Убыточных заказов – {_ru(loss)} %; больше всего прибыли приносит категория «{cargo}»"))
+    return out

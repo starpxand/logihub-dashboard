@@ -18,6 +18,7 @@ def _style(fig: go.Figure, height: int = 360) -> go.Figure:
         font=dict(family="Inter, Segoe UI, Arial", size=12, color="#0f172a"),
         legend=dict(orientation="h", yanchor="bottom", y=1.04, xanchor="left", x=0, title_text=""),
         hoverlabel=dict(bgcolor="white", font_size=12), separators=", ",
+        transition=dict(duration=450, easing="cubic-in-out"),   # при смене фильтров графики перетекают
     )
     fig.update_xaxes(showgrid=False)
     fig.update_yaxes(gridcolor="#eef2f7")
@@ -109,16 +110,18 @@ def otif_trend(df: pd.DataFrame, freq: str) -> go.Figure:
     return _style(fig, 300)
 
 
-def region_bars(df: pd.DataFrame) -> go.Figure:
+def region_bars(df: pd.DataFrame, selected: list | None = None) -> go.Figure:
+    """Выручка и OTIF по регионам. df – без фильтра по регионам, выбранные регионы выделяются цветом."""
     done = completed(df)
     if done.empty:
         return empty("Нет данных")
     data = done.groupby("region").agg(revenue=("revenue", "sum"), otif=("otif", "mean")).reset_index()
     data = data.sort_values("revenue")
-    fig = go.Figure(go.Bar(x=data["revenue"] / 1e6, y=data["region"], orientation="h", marker_color=BLUE,
+    colors = [BLUE if not selected or r in selected else "#c7d2fe" for r in data["region"]]
+    fig = go.Figure(go.Bar(x=data["revenue"] / 1e6, y=data["region"], orientation="h", marker_color=colors,
                            text=[f"OTIF {v * 100:.0f} %" for v in data["otif"]], textposition="inside",
-                           insidetextanchor="end", textfont=dict(color="white"),
-                           hovertemplate="%{y}<br>Выручка: %{x:.1f} млн ₽<extra></extra>"))
+                           insidetextanchor="end", textfont=dict(color=["white" if c == BLUE else NAVY for c in colors]),
+                           hovertemplate="%{y}<br>Выручка: %{x:.1f} млн ₽<br><i>щелчок – фильтр по региону</i><extra></extra>"))
     fig.update_xaxes(title_text="Выручка, млн ₽", showgrid=True, gridcolor="#eef2f7")
     return _style(fig, 300)
 
